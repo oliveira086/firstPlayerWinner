@@ -1,0 +1,3 @@
+{
+  "*.ts": ["eslint 'src/**' --fix --max-warnings 0 ", "yarn run test:staged"]
+}

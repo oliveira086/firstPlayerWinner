@@ -1,0 +1,36 @@
+version: "3"
+services:
+  api:
+    container_name: api_fpw
+    build: .
+    image: api_fpw
+    depends_on:
+      - mysql_db
+
+    ports:
+      - 3000:3000
+    env_file: ./.env
+    links:
+      - mysql_db
+
+  mysql_db:
+    container_name: mysql_db
+    image: mysql
+    environment:
+      DB_PORT: 3306
+      MYSQL_ROOT_PASSWORD: admin
+      ENVIRONMENT: development
+      MYSQL_DATABASE: FPW_DB
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_HOST: 127.0.0.1
+    volumes:
+      - ./data:/data/db
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+
+volumes:
+  db:

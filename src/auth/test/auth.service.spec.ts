@@ -1,11 +1,16 @@
+import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { AuthCredentialsDto } from './dto/auth.credentials.dto';
-import { UserRepository } from './user.repository';
+import { AuthService } from '../auth.service';
+import { AuthCredentialsDto } from '../dto/auth.credentials.dto';
+import { UserRepository } from '../user.repository';
 
 const mockRepository = {
-  signIn: jest.fn(() => 'token'),
+  signIn: jest.fn(() => ({ accessToken: 'token' })),
   signUp: jest.fn(),
+};
+
+const mockJwtService = {
+  sign: jest.fn(() => ({ accessToken: 'token' })),
 };
 
 describe('AuthService', () => {
@@ -18,9 +23,15 @@ describe('AuthService', () => {
 
   let service: AuthService;
   let repository: UserRepository;
+  let jwtService: JwtService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        {
+          provide: JwtService,
+          useValue: mockJwtService,
+        },
         AuthService,
         {
           provide: UserRepository,
@@ -29,6 +40,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
+    jwtService = module.get<JwtService>(JwtService);
     service = module.get<AuthService>(AuthService);
     repository = module.get<UserRepository>(UserRepository);
   });
@@ -38,11 +50,15 @@ describe('AuthService', () => {
     expect(repository).toBeDefined();
   });
 
-  it('register user using signIn', async () => {
+  it('should register user using signIn and return a token', async () => {
     const credentials = makeCredentials();
     expect(repository.signIn).not.toHaveBeenCalled();
+    expect(jwtService.sign).not.toHaveBeenCalled();
     service.signIn(credentials);
     expect(repository.signIn).toHaveBeenCalledWith(credentials);
+    expect(repository.signIn(makeCredentials())).toEqual({
+      accessToken: 'token',
+    });
   });
 
   it('login using signUp', async () => {

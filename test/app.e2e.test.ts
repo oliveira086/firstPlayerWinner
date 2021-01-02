@@ -37,7 +37,7 @@ describe('AppController (e2e)', () => {
       .expect('Hello World!');
   });
 
-  it('/auth/signin (POST)', () => {
+  it('/auth/signin (POST) invalid credential', () => {
     return supertest(app.getHttpServer())
       .post('/auth/signin')
       .send(makeCredentials())
@@ -45,7 +45,7 @@ describe('AppController (e2e)', () => {
       .expect(401);
   });
 
-  it('/auth/signup (POST)', () => {
+  it('/auth/signup (POST) create an user', () => {
     return supertest(app.getHttpServer())
       .post('/auth/signup')
       .send(makeCredentials())
@@ -53,18 +53,19 @@ describe('AppController (e2e)', () => {
       .expect(201);
   });
 
-  it('/auth/signin (POST)', () => {
+  it('/auth/signin (POST) get a token', () => {
     return supertest(app.getHttpServer())
       .post('/auth/signin')
       .send(makeCredentials())
       .set('Accept', 'application/json')
       .expect(201)
       .then((response) => {
-        assert(response, 'token');
+        const resJS = JSON.parse(response.text);
+        expect(resJS).toHaveProperty('accessToken');
       });
   });
 
-  it('/auth/signup (POST)', () => {
+  it('/auth/signup (POST) user already exist', () => {
     return supertest(app.getHttpServer())
       .post('/auth/signup')
       .send(makeCredentials())

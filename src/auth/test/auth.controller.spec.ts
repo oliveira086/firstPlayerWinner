@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { AuthCredentialsDto } from './dto/auth.credentials.dto';
-import { UserRepository } from './user.repository';
+import { AuthController } from '../auth.controller';
+import { AuthService } from '../auth.service';
+import { AuthCredentialsDto } from '../dto/auth.credentials.dto';
+import { UserRepository } from '../user.repository';
 
 describe('AuthController', () => {
   const makeCredentials = (): AuthCredentialsDto => {
@@ -14,7 +14,7 @@ describe('AuthController', () => {
 
   let controller: AuthController;
   const mockRepository = {
-    signIn: jest.fn(() => 'token'),
+    signIn: jest.fn(() => ({ accessToken: 'token' })),
     signUp: jest.fn(() => 'success'),
   };
 
@@ -48,7 +48,7 @@ describe('AuthController', () => {
   it('should call signin', async () => {
     const credentials = makeCredentials();
     const signInSpy = jest.spyOn(controller, 'signIn');
-    expect(controller.signIn(credentials)).toBe('token');
+    expect(controller.signIn(credentials)).toEqual({ accessToken: 'token' });
     expect(signInSpy).toHaveBeenCalledWith(credentials);
   });
 

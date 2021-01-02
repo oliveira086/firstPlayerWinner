@@ -43,7 +43,11 @@ export class User extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatadAt!: Date;
 
-  async validatePassword(password: string): Promise<boolean> {
-    return BcryptUtil.init().comparePassword(password, this.password);
+  async validatePassword(textPassword: string): Promise<boolean> {
+    return BcryptUtil.init().comparePassword(textPassword, this.password);
+  }
+
+  async encriptPassword(textPassword: string): Promise<void> {
+    this.password = await BcryptUtil.init().encriptPassword(textPassword);
   }
 }

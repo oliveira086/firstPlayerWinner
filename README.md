@@ -17,3 +17,7 @@
 #### Documentação da api
 
 [Link da Documentação da Api - Postman](https://documenter.getpostman.com/view/9702967/TVt2c3oT 'LInk da Documentação da Api - Postman')
+
+#### Diagrama de classe
+
+![Diagram](./readme/FPW-DIAGRAM.png)

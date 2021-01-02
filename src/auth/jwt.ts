@@ -3,6 +3,7 @@ export interface IAccessToken {
 }
 
 export interface JwtPayload {
+  id: string;
   email: string;
   permission: string;
 }

@@ -30,7 +30,6 @@ describe('user.repository', () => {
       user = new User();
       user.email = makeCredentials().email;
       user.password = makeCredentials().password;
-      user.encriptPassword = jest.fn();
       user.save = jest.fn();
       userRepository.create = jest.fn();
     });
@@ -38,12 +37,10 @@ describe('user.repository', () => {
     it('should successfully signs up the user', async () => {
       user.save = jest.fn().mockResolvedValue(undefined);
       userRepository.create = jest.fn().mockReturnValue(user);
-      user.encriptPassword = jest.fn().mockResolvedValue('encriptedPassword');
       expect(userRepository.signUp(makeCredentials())).resolves.not.toThrow();
     });
 
     it('should throws a conflict exception as username already exists', async () => {
-      user.encriptPassword = jest.fn().mockResolvedValue('encriptedPassword');
       userRepository.create = jest.fn().mockReturnValue(user);
 
       user.save = jest.fn().mockRejectedValue({ code: ER_DUP_ENTRY });
@@ -53,7 +50,6 @@ describe('user.repository', () => {
     });
 
     it('should throws a generic server exception if error', async () => {
-      user.encriptPassword = jest.fn().mockResolvedValue('encriptedPassword');
       userRepository.create = jest.fn().mockReturnValue(user);
 
       user.save = jest.fn().mockRejectedValue({ code: 'ANY_CODE' });

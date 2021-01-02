@@ -12,9 +12,7 @@ export class UserRepository extends Repository<User> {
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const user = this.create();
     user.email = authCredentialsDto.email;
-    user.lastAccess = new Date();
-    user.permission = 'USER';
-    await user.encriptPassword(authCredentialsDto.password);
+    user.password = authCredentialsDto.password;
 
     try {
       await user.save();

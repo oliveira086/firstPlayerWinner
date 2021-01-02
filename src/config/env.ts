@@ -1,6 +1,16 @@
 import envVar from 'env-var';
 
-export const ENVIRONMENT = envVar.get('ENVIRONMENT').asString();
+export const ENVIRONMENT = envVar
+  .get('ENVIRONMENT')
+  .default('development')
+  .asEnum(['development', 'production']);
+
+export const JWT_SECRET = envVar.get('JWT_SECRET').default('any').asString();
+
+export const JWT_EXPIRATION_IN_SECOUNDS = envVar
+  .get('JWT_EXPIRATION_IN_SECOUNDS')
+  .default(3600)
+  .asIntPositive();
 
 export const IS_PRODUCTION = ENVIRONMENT === 'production';
 

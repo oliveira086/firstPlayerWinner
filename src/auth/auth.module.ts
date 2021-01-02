@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { JWT_EXPIRATION_IN_SECOUNDS, JWT_SECRET } from '../config/env';
 
 @Module({
   imports: [
@@ -12,9 +13,9 @@ import { PassportModule } from '@nestjs/passport';
       defaultStrategy: 'jwt',
     }),
     JwtModule.register({
-      secret: 'provisory-secret',
+      secret: JWT_SECRET,
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: JWT_EXPIRATION_IN_SECOUNDS,
       },
     }),
     TypeOrmModule.forFeature([UserRepository]),

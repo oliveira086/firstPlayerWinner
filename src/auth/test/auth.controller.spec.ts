@@ -14,7 +14,7 @@ describe('AuthController', () => {
 
   let controller: AuthController;
   const mockRepository = {
-    signIn: jest.fn(() => 'token'),
+    signIn: jest.fn(() => ({ accessToken: 'token' })),
     signUp: jest.fn(() => 'success'),
   };
 
@@ -48,7 +48,7 @@ describe('AuthController', () => {
   it('should call signin', async () => {
     const credentials = makeCredentials();
     const signInSpy = jest.spyOn(controller, 'signIn');
-    expect(controller.signIn(credentials)).toBe('token');
+    expect(controller.signIn(credentials)).toEqual({ accessToken: 'token' });
     expect(signInSpy).toHaveBeenCalledWith(credentials);
   });
 

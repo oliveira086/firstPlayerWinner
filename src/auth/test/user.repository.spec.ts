@@ -25,26 +25,38 @@ describe('user.repository', () => {
   });
 
   describe('signUp', () => {
-    const save = jest.fn();
+    let user: User;
     beforeEach(() => {
-      save.mockClear();
-      userRepository.create = jest.fn().mockReturnValue({ save });
+      user = new User();
+      user.email = makeCredentials().email;
+      user.password = makeCredentials().password;
+      user.encriptPassword = jest.fn();
+      user.save = jest.fn();
+      userRepository.create = jest.fn();
     });
 
-    it('should successfully signs up the user', () => {
-      save.mockResolvedValue(undefined);
+    it('should successfully signs up the user', async () => {
+      user.save = jest.fn().mockResolvedValue(undefined);
+      userRepository.create = jest.fn().mockReturnValue(user);
+      user.encriptPassword = jest.fn().mockResolvedValue('encriptedPassword');
       expect(userRepository.signUp(makeCredentials())).resolves.not.toThrow();
     });
 
-    it('should throws a conflict exception as username already exists', () => {
-      save.mockRejectedValue({ code: ER_DUP_ENTRY });
+    it('should throws a conflict exception as username already exists', async () => {
+      user.encriptPassword = jest.fn().mockResolvedValue('encriptedPassword');
+      userRepository.create = jest.fn().mockReturnValue(user);
+
+      user.save = jest.fn().mockRejectedValue({ code: ER_DUP_ENTRY });
       expect(userRepository.signUp(makeCredentials())).rejects.toThrow(
         ConflictException,
       );
     });
 
-    it('should throws a generic server exception if error', () => {
-      save.mockRejectedValue({ code: 'ANY_CODE' });
+    it('should throws a generic server exception if error', async () => {
+      user.encriptPassword = jest.fn().mockResolvedValue('encriptedPassword');
+      userRepository.create = jest.fn().mockReturnValue(user);
+
+      user.save = jest.fn().mockRejectedValue({ code: 'ANY_CODE' });
       expect(userRepository.signUp(makeCredentials())).rejects.toThrow(
         InternalServerErrorException,
       );

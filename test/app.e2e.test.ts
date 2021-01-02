@@ -60,7 +60,8 @@ describe('AppController (e2e)', () => {
       .set('Accept', 'application/json')
       .expect(201)
       .then((response) => {
-        assert(response, 'token');
+        const resJS = JSON.parse(response.text);
+        expect(resJS).toHaveProperty('accessToken');
       });
   });
 

@@ -16,4 +16,4 @@
 
 #### Documentação da api
 
-[Link da Documentação da Api - Postman](https://first-player-winner.postman.co/workspace/Team-Workspace~098af696-3016-493a-8a98-bb9724fd54e5 'LInk da Documentação da Api - Postman')
+[Link da Documentação da Api - Postman](https://documenter.getpostman.com/view/9702967/TVt2c3oT 'LInk da Documentação da Api - Postman')

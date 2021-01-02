@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { AuthCredentialsDto } from './dto/auth.credentials.dto';
-import { UserRepository } from './user.repository';
+import { AuthController } from '../auth.controller';
+import { AuthService } from '../auth.service';
+import { AuthCredentialsDto } from '../dto/auth.credentials.dto';
+import { UserRepository } from '../user.repository';
 
 describe('AuthController', () => {
   const makeCredentials = (): AuthCredentialsDto => {

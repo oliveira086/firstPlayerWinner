@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { AuthCredentialsDto } from './dto/auth.credentials.dto';
-import { UserRepository } from './user.repository';
+import { AuthService } from '../auth.service';
+import { AuthCredentialsDto } from '../dto/auth.credentials.dto';
+import { UserRepository } from '../user.repository';
 
 const mockRepository = {
   signIn: jest.fn(() => 'token'),

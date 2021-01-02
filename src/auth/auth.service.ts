@@ -23,6 +23,7 @@ export class AuthService {
     }
 
     const payload: JwtPayload = {
+      id: matchCredentials.id,
       email: matchCredentials.email,
       permission: matchCredentials.permission,
     };

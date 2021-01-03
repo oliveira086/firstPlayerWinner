@@ -27,4 +27,6 @@ export const DB_PASSWORD = envVar
   .default('admin')
   .asString();
 
+export const PORT = envVar.get('PORT').default(3000).asPortNumber();
+
 export const DB_NAME = envVar.get('DB_NAME').default('FPW_DB').asString();

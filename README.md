@@ -21,3 +21,15 @@
 #### Diagrama de classe
 
 ![Diagram](./readme/FPW-DIAGRAM.png)
+
+#### Api em ambiente de desenvolvimento
+
+[Acessar Link](https://firstplayerwinner.herokuapp.com/)
+
+`$ https://firstplayerwinner.herokuapp.com/`
+
+#### Pipeline de desenvolvimento
+
+[Acessar link](https://lucid.app/lucidchart/4807f9d0-42de-42f5-9f88-ba626f4a511e/view#)
+
+![Diagram](./readme/PIPELINE.png)

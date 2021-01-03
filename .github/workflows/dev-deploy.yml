@@ -1,0 +1,32 @@
+name: dev-deploy
+on:
+  push:
+    branches: [development]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Instalar dependências
+        run: yarn install --ignore-optional
+
+      - name: Compilar para javascript
+        run: yarn tsc
+
+      - name: Rodar os testes
+        run: yarn test
+
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.8.8
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "firstplayerwinner"
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          procfile: "web: yarn start:prod"

@@ -1,26 +1,24 @@
-name: check
+name: dev-check
 on:
-  push:
-    branches: [ development ]
   pull_request:
-    branches: [ development ]
+    branches: [development]
 
 jobs:
   build:
     runs-on: ubuntu-18.04
-    
+
     strategy:
       matrix:
-        node-version: [8.x]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Instalar dependências
-        run: yarn install
-      
+        run: yarn install --ignore-optional
+
       - name: Compilar para javascript
         run: yarn tsc
 
-      - name: Rodar os testes 
+      - name: Rodar os testes
         run: yarn test

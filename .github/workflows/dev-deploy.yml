@@ -1,12 +1,11 @@
 name: dev-deploy
 on:
   push:
-    branches:
-      - development
+    branches: [development]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     strategy:
       matrix:
@@ -24,7 +23,7 @@ jobs:
       - name: Rodar os testes
         run: yarn test
 
-      - name: Realizar deploy para heroku
+      - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.8.8
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}

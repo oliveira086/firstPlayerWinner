@@ -1,5 +1,4 @@
-name: Deploy
-
+name: dev-deploy
 on:
   push:
     branches:
@@ -8,25 +7,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [14.x]
-    
+
     steps:
-      - uses: actions/checkout@v2
       - name: Instalar dependências
+      - uses: actions/checkout@v2
         run: yarn install
-      
+
       - name: Compilar para javascript
         run: yarn tsc
 
-      - name: Rodar os testes 
+      - name: Rodar os testes
         run: yarn test
-        
-      - uses: akhileshns/heroku-deploy@v3.8.8 # This is the action
+
+      - name: Realizar deploy para heroku
+      - uses: akhileshns/heroku-deploy@v3.8.8
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "firstplayerwinner" #Must be unique in Heroku
+          heroku_app_name: "firstplayerwinner"
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           procfile: "web: yarn start:prod"

@@ -22,7 +22,7 @@ jobs:
 
       - name: Rodar os testes
         run: yarn test
-      - name: Conectar ao Heroku
+
       - uses: actions/checkout@v2
 
       - name: Realizar deploy

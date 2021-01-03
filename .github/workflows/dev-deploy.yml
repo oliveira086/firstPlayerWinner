@@ -24,8 +24,6 @@ jobs:
         run: yarn test
 
       - uses: actions/checkout@v2
-
-      - name: Realizar deploy
       - uses: akhileshns/heroku-deploy@v3.8.8
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}

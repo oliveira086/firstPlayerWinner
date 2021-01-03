@@ -1,0 +1,44 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Instalar dependências
+        run: yarn install
+      
+      - name: Compilar para javascript
+        run: yarn tsc
+
+      - name: Rodar os testes 
+        run: yarn test
+        
+      - name: Rodar a build
+        run: yarn build --if-present
+        
+      - name: Create application folder
+        run: mkdir application && cp -r dist application/dist && cp -r package.json application/
+        
+      - name: Prepare deploy
+        uses: actions/setup-node@v1
+      - name: Realizar deploy para o servidor
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_SERVER_KEY }}
+            ARGS: "-rltgoDzvO --delete"
+            SOURCE: "application/"
+            REMOTE_HOST: ${{ secrets.SSH_SERVER_HOST }}
+            REMOTE_USER: ${{ secrets.SSH_SERVER_USER }}
+            TARGET: ${{ secrets.SSH_SERVER_REMOTE_TARGET }}

@@ -26,7 +26,7 @@ jobs:
         run: yarn test
         
       - name: Rodar a build
-        run: yarn build --if-present
+        run: yarn build
         
       - name: Create application folder
         run: mkdir application && cp -r dist application/dist && cp -r package.json application/

@@ -29,4 +29,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "firstplayerwinner"
           heroku_email: ${{secrets.HEROKU_EMAIL}}
-          procfile: "web: cd yarn start:prod"
+          procfile: "web: yarn start:prod"
